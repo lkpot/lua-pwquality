@@ -1,8 +1,12 @@
 name: CI
 
 on:
-  push:
   pull_request:
+    paths-ignore:
+      - README.md
+
+permissions:
+  contents: read
 
 jobs:
   docker-bake:
