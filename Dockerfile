@@ -18,6 +18,7 @@ RUN apt-get update \
         tar \
         libreadline-dev \
         unzip \
+        git \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -31,10 +32,18 @@ RUN curl -L -O "https://luarocks.org/releases/luarocks-${LUAROCKS_VERSION}.tar.g
 
 WORKDIR /workspace
 
-FROM base AS test
+FROM base AS source
 
 COPY . /workspace
+
+FROM source AS test
 
 RUN cmake -S . -B build \
     && cmake --build build \
     && ctest --test-dir build --output-on-failure
+
+FROM source AS luarocks-test
+
+RUN luarocks lint pwquality-*.rockspec \
+    && luarocks make pwquality-*.rockspec \
+    && luarocks test pwquality-*.rockspec
