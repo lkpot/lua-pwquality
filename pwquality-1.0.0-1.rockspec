@@ -22,7 +22,13 @@ external_dependencies = {
   }
 }
 build = {
-  type = "cmake"
+  type = "builtin",
+  modules = {
+    pwquality = {
+      sources = { "lua_pwquality.c" },
+      libraries = { "pwquality" }
+    }
+  }
 }
 test_dependencies = { "busted" }
 test = {
