@@ -24,27 +24,29 @@ set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES PREFIX "")
 
 install(TARGETS ${CMAKE_PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_LIBDIR}/lua/${LUA_VERSION_MAJOR}.${LUA_VERSION_MINOR})
 
-find_program(CPPCHECK_EXECUTABLE cppcheck REQUIRED)
-add_test(
-    NAME CPPCHECK
-    COMMAND ${CPPCHECK_EXECUTABLE}
-        --language=c
-        --enable=all
-    	--suppressions-list=${CMAKE_SOURCE_DIR}/cppcheck-suppressions.txt
-        --error-exitcode=1
-        lua_pwquality.c
-	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-)
+if(BUILD_TESTING)
+    find_program(CPPCHECK_EXECUTABLE cppcheck REQUIRED)
+    add_test(
+        NAME CPPCHECK
+        COMMAND ${CPPCHECK_EXECUTABLE}
+            --language=c
+            --enable=all
+            --suppressions-list=${CMAKE_SOURCE_DIR}/cppcheck-suppressions.txt
+            --error-exitcode=1
+            lua_pwquality.c
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    )
 
-find_program(BUSTED_EXECUTABLE NAMES busted REQUIRED)
-add_test(
-    NAME BUSTED
-    COMMAND ${BUSTED_EXECUTABLE} -o junit -Xoutput=${CMAKE_BINARY_DIR}/busted.xml ${CMAKE_SOURCE_DIR}/test-pwquality.lua
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-)
+    find_program(BUSTED_EXECUTABLE NAMES busted REQUIRED)
+    add_test(
+        NAME BUSTED
+        COMMAND ${BUSTED_EXECUTABLE} -o junit -Xoutput=${CMAKE_BINARY_DIR}/busted.xml ${CMAKE_SOURCE_DIR}/test-pwquality.lua
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    )
 
-find_program(LUACHECK_EXECUTABLE NAMES luacheck REQUIRED)
-add_test(
-    NAME LUACHECK
-    COMMAND ${LUACHECK_EXECUTABLE} --no-max-line-length ${CMAKE_SOURCE_DIR}/test-pwquality.lua
-)
+    find_program(LUACHECK_EXECUTABLE NAMES luacheck REQUIRED)
+    add_test(
+        NAME LUACHECK
+        COMMAND ${LUACHECK_EXECUTABLE} --no-max-line-length ${CMAKE_SOURCE_DIR}/test-pwquality.lua
+    )
+endif()
