@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.18.0)
 
 project(pwquality
-    VERSION 1.0.0
+    VERSION 1.0.1
     LANGUAGES C
     HOMEPAGE_URL https://github.com/lkpot/lua-pwquality
     DESCRIPTION "Password quality checking library for Lua"

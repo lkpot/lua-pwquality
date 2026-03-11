@@ -1,9 +1,9 @@
 rockspec_format = "3.0"
 package = "pwquality"
-version = "1.0.0-1"
+version = "1.0.1-1"
 source = {
   url = "git://github.com/lkpot/lua-pwquality",
-  tag = "v1.0.0"
+  tag = "v1.0.1"
 }
 description = {
   summary = "Lua bindings to libpwquality",
